@@ -20,12 +20,9 @@ def main(_):
     # 2 构建网络
     # 2.1 定义模型
     x = tf.placeholder(tf.float32, [None, 784])
-    # 将参数初始化的0
-    W = tf.Variable(tf.zeros([784, 10]))
-    b = tf.Variable(tf.zeros([10]))
-    # 使用随机初始化
-    # W = tf.Variable(tf.random_normal([784, 10], stddev=1, seed=1))
-    # b = tf.Variable(tf.random_normal([10], stddev=1, seed=1))
+    # 将参数初始化
+    W = tf.Variable(tf.truncated_normal([784, 10], stddev=0.1))  # 正太分布
+    b = tf.Variable(tf.constant(0.1, shape=[10]))
     y = tf.matmul(x, W) + b
     y_ = tf.placeholder(tf.int16, [None, 10])
 
@@ -36,8 +33,8 @@ def main(_):
     # 3 训练模型
     with tf.Session() as sess:
         tf.global_variables_initializer().run()
-        for _ in range(100):
-            batch_xs, batch_ys = mnist.train.next_batch(100)
+        for _ in range(1000):
+            batch_xs, batch_ys = mnist.train.next_batch(1000)
             sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
         # 4 模型评估
