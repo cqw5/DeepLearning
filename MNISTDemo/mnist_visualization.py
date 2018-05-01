@@ -31,6 +31,7 @@ def train():
 
     # (可视化)为输入的数据添加摘要，用于Images版面
     with tf.name_scope('input_reshape'):
+        # [-1, 28, 28, 1]: -1表示不考虑输入图片的数量，28*28是图片的长和宽的像素数，1是通道的数量（黑白图片是单通道）。
         image_shaped_input = tf.reshape(x, [-1, 28, 28, 1])
         tf.summary.image('input', image_shaped_input, 10)
 
